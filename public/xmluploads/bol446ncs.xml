@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TWM_BOL>
+    <Identification_segment>
+        <Registry_number>GRI2106IMO9672088</Registry_number>
+        <Date>2014-09-01</Date>
+        <Bol_reference>S320684664</Bol_reference>
+        <Customs_office_segment>
+            <code>01TG</code>
+        </Customs_office_segment>
+    </Identification_segment>
+    <Bol_specific_segment>
+        <Line_number>446</Line_number>
+        <Previous_document_reference />
+        <Bol_Nature>23</Bol_Nature>
+        <Unique_carrier_reference />
+        <Total_number_of_containers>4</Total_number_of_containers>
+        <Total_gross_mass_manifested>61200.00</Total_gross_mass_manifested>
+        <Volume_in_cubic_meters>136.00</Volume_in_cubic_meters>
+        <Bol_type_segment>
+            <code>BL</code>
+        </Bol_type_segment>
+        <Exporter_segment>
+            <code />
+            <Name>SHIPPER NAME AS PER BL</Name>
+            <address>SHIPPER ADDRESS AS PER BL</address>
+        </Exporter_segment>
+        <Consignee_segment>
+            <code />
+            <Name>Cormart Nigeria Ltd</Name>
+            <address>14 Chivita Avenue Ajao Estate - Apakun Oshodi Lagos, Nigeria</address>
+        </Consignee_segment>
+        <Notify_segment>
+            <code />
+            <Name>CORMART NIGERIA LIMITED</Name>
+            <address>ILUPEJU INDUSTRIAL LAYOUT</address>
+        </Notify_segment>
+        <Place_of_loading_segment>
+            <code>BEANR</code>
+        </Place_of_loading_segment>
+        <Place_of_unloading_segment>
+            <code>NGLOS</code>
+        </Place_of_unloading_segment>
+        <Packages_segment>
+            <Package_type_code>BG</Package_type_code>
+            <Number_of_packages>2400</Number_of_packages>
+        </Packages_segment>
+        <Shipping_marks />
+        <Goods_description>2400 BAGS NATROSOL 250 HHBR</Goods_description>
+        <Freight_segment>
+            <Value />
+            <Currency />
+            <Indicator_segment>
+                <code />
+            </Indicator_segment>
+        </Freight_segment>
+        <Customs_segment>
+            <Value />
+            <Currency />
+        </Customs_segment>
+        <Transport_segment>
+            <Value />
+            <Currency />
+        </Transport_segment>
+        <Insurance_segment>
+            <Value />
+            <Currency />
+        </Insurance_segment>
+        <Seals_segment>
+            <Number_of_seals>4</Number_of_seals>
+            <Marks_of_seals>031424</Marks_of_seals>
+            <Sealing_party_code>CR</Sealing_party_code>
+        </Seals_segment>
+        <Information_part_a>Some information</Information_part_a>
+        <Operations_segment>
+            <Location_segment>
+                <code>TG002</code>
+                <Information />
+            </Location_segment>
+        </Operations_segment>
+    </Bol_specific_segment>
+    <Container>
+        <Reference>ACLU2798901</Reference>
+        <Number />
+        <Type>20GP</Type>
+        <Empty_full>1/1</Empty_full>
+        <Seals>031424</Seals>
+        <Marks1>PK</Marks1>
+        <Marks2 />
+        <Sealing_party>CR</Sealing_party>
+    </Container>
+    <Container>
+        <Reference>DFSU2820609</Reference>
+        <Number />
+        <Type>20GP</Type>
+        <Empty_full>1/1</Empty_full>
+        <Seals>047731</Seals>
+        <Marks1>PK</Marks1>
+        <Marks2 />
+        <Sealing_party>CR</Sealing_party>
+    </Container>
+    <Container>
+        <Reference>GCNU1193632</Reference>
+        <Number />
+        <Type>20GP</Type>
+        <Empty_full>1/1</Empty_full>
+        <Seals>048156</Seals>
+        <Marks1>PK</Marks1>
+        <Marks2 />
+        <Sealing_party>CR</Sealing_party>
+    </Container>
+    <Container>
+        <Reference>SEGU3282170</Reference>
+        <Number />
+        <Type>20GP</Type>
+        <Empty_full>1/1</Empty_full>
+        <Seals>047753</Seals>
+        <Marks1>PK</Marks1>
+        <Marks2 />
+        <Sealing_party>CR</Sealing_party>
+    </Container>
+</TWM_BOL>
