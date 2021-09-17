@@ -164,14 +164,21 @@ class loginController extends Controller
     }
 
 	public function getIdSegment($phpDataArray){
-        $IdSegment = $phpDataArray["Identification_segment"];
+		$string = '';
+        $IdSegment = isset($phpDataArray["Identification_segment"])? $phpDataArray["Identification_segment"]: [];
+		$regNumber = isset($IdSegment["Registry_number"])? $IdSegment["Registry_number"] : '';
+		$segmentDate = isset($IdSegment["Date"])? $IdSegment["Date"] : '';
+		$bolReference = isset($IdSegment["Bol_reference"])? $IdSegment["Bol_reference"] : '';
+		$custmomOfficeSegment = isset($IdSegment["Customs_office_segment"])? $IdSegment["Customs_office_segment"] : [];
+		$segmentCode = isset($custmomOfficeSegment["code"])? $custmomOfficeSegment["code"] : '';
+		
         $string = '<identification_segment>';
-        $string .= '<registry_number>'. $IdSegment["Registry_number"] . '</registry_number>';
+        $string .= '<registry_number>'. $regNumber . '</registry_number>';
 
-        $string .= '<date>'. $IdSegment["Date"] . '</date>';
-        $string .= '<bol_reference>'. $IdSegment["Bol_reference"] . '</bol_reference>';
+        $string .= '<date>'. $segmentDate . '</date>';
+        $string .= '<bol_reference>'. $bolReference . '</bol_reference>';
         
-        $customString = '<customs_office_segment><code>' .$IdSegment["Customs_office_segment"]["code"] . '</code></customs_office_segment>';
+        $customString = '<customs_office_segment><code>' .$segmentCode . '</code></customs_office_segment>';
         $string .= $customString;
         $string .= '</identification_segment>';
 
