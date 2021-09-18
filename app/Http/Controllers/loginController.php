@@ -15,7 +15,8 @@ use App\Models\Uploadd as uploadd;
 use App\Models\IdenSeg as IdenSeg;
 use App\Models\Contia as Contia;
 use App\Models\BolSpec as BolSpec;
-
+use League\Flysystem\Filesystem;
+use League\Flysystem\ZipArchive\ZipArchiveAdapter;
 
 
 class loginController extends Controller
@@ -106,60 +107,86 @@ class loginController extends Controller
         $compname=$datas['compname'];
         $Termina=$datas['Termina'];
         $xmlfile=$datas['myfiles'];
-        $fileExt = $xmlfile->extension();
-        $dt = date('d-m-Y');
-
-        if ($fileExt == "xml"){
-
-
-		    $data = $req->input('myfiles');
-			$xmlrealfile = $req->file('myfiles')->getClientOriginalName();
-			$destination = base_path() . '/public/xmluploads';
-			$req->file('myfiles')->move($destination, $xmlrealfile);
-
-			$xmlDataString = file_get_contents(public_path('xmluploads/'.$xmlrealfile));
-	        $xmlObject = simplexml_load_string($xmlDataString);
-	                   
-	        $json = json_encode($xmlObject);
-	        $phpDataArray = json_decode($json, true); 
-			$IdSegmentString = $this->getIdSegment($phpDataArray);
-			$BolSpecificSegmentString = $this->getBolSpecificSegment($phpDataArray);
-
-			$xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-							<twm_bol>';
-			$xmlString .= $IdSegmentString;
-			$xmlString .= $BolSpecificSegmentString;
-			$xmlString .= "</twm_bol>";
-			$fileName = "EditedXML.xml";
-
-			return response()->view('xml-index', [
-				'xml' => $xmlString
-			])->header('Cache-Control', 'public')
-			->header('Content-Description', 'File Transfer')
-			->header('Content-Disposition', 'attachment; filename='. $fileName)
-			->header('Content-Transfer-Encoding', 'binary');
-
-			$xml = simplexml_load_string($xmlString);
-
+		$files = $req->myfiles;
+		$fileCount = count($files);
+		$storedFiles = [];
+		for($i = 0; $i < $fileCount; $i++){
+			$xmlfile = $files[$i];
+			$fileExt = $xmlfile->extension();
+        	$dt = date('d-m-Y');
 			
+			if ($fileExt == "xml"){
 
-			$response = \Response::create($xml, 200);
-			$response->header('Content-Type', 'text/xml');
-			$response->header('Cache-Control', 'public');
-			$response->header('Content-Description', 'File Transfer');
-			$response->header('Content-Disposition', 'attachment; filename=' .$fileName);
-			$response->header('Content-Transfer-Encoding', 'binary');
-			return $response;
 
-	        // DB::insert('insert into uploadd(companyname,fileext,dateofupload,Terminalcode) values (?,?,?,?)',[$compname,$xmlrealfile,$dt,$Termina]);
+				// $data = $req->input('myfiles');
+				$xmlrealfile = $i."-".$req->file('myfiles')[$i]->getClientOriginalName();
+				$destination = base_path() . '/public/xmluploads';
+				$storedXMLPath = base_path() . '/public/xmledits/';
+				$req->file('myfiles')[$i]->move($destination, $xmlrealfile);
+	
+				$xmlDataString = file_get_contents(public_path('xmluploads/'.$xmlrealfile));
+				$xmlObject = simplexml_load_string($xmlDataString);
+						   
+				$json = json_encode($xmlObject);
+				$phpDataArray = json_decode($json, true); 
+				$IdSegmentString = $this->getIdSegment($phpDataArray);
+				$BolSpecificSegmentString = $this->getBolSpecificSegment($phpDataArray);
+	
+				$xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+								<twm_bol>';
+				$xmlString .= $IdSegmentString;
+				$xmlString .= $BolSpecificSegmentString;
+				$xmlString .= "</twm_bol>";
+				$fileName = $storedXMLPath. "EditedXML-".$i.".xml";
+				array_push($storedFiles, $fileName);
+				file_put_contents($fileName, $xmlString);
+	
+				// return response()->view('xml-index', [
+				// 	'xml' => $xmlString
+				// ])->header('Cache-Control', 'public')
+				// ->header('Content-Description', 'File Transfer')
+				// ->header('Content-Disposition', 'attachment; filename='. $fileName)
+				// ->header('Content-Transfer-Encoding', 'binary');
+	
+				// $xml = simplexml_load_string($xmlString);
+	
+				
+	
+				// $response = \Response::create($xml, 200);
+				// $response->header('Content-Type', 'text/xml');
+				// $response->header('Cache-Control', 'public');
+				// $response->header('Content-Description', 'File Transfer');
+				// $response->header('Content-Disposition', 'attachment; filename=' .$fileName);
+				// $response->header('Content-Transfer-Encoding', 'binary');
+				// return $response;
+	
+				// DB::insert('insert into uploadd(companyname,fileext,dateofupload,Terminalcode) values (?,?,?,?)',[$compname,$xmlrealfile,$dt,$Termina]);
+	
+				// Session::flash('success', $xmlrealfile." ".'successfully uploaded');
+				// return back();
+	
+			}
 
-	        // Session::flash('success', $xmlrealfile." ".'successfully uploaded');
-			// return back();
+		}
 
-        }else{
-        	Session::flash('error', 'Please select an XML file');
-			return back();	
-        }
+		$uniqueTime = time();
+    	$zipfileName = storage_path("app/public/xml-zips-$uniqueTime.zip");
+        $zip = new Filesystem(new ZipArchiveAdapter($zipfileName));
+		$index=0;
+		foreach($storedFiles as $storedFile){
+			$file_content = file_get_contents($storedFile);
+			$zip->put("xml-file-". $index, $file_content);
+
+			$index++;
+		}
+		$zip->getAdapter()->getArchive()->close();
+        return response()->download($zipfileName)->deleteFileAfterSend(true);
+        
+
+        // else{
+        // 	Session::flash('error', 'Please select an XML file');
+		// 	return back();	
+        // }
 
     }
 
